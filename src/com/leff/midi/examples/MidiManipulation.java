@@ -23,6 +23,7 @@ public class MidiManipulation
         try
         {
             mf = new MidiFile(input);
+            mf.dumpToConsole();
         }
         catch(IOException e)
         {

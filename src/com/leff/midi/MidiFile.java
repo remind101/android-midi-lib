@@ -195,15 +195,25 @@ public class MidiFile
     {
         if(!MidiUtil.bytesEqual(buffer, IDENTIFIER, 0, 4))
         {
-            System.out.println("File identifier not MThd. Exiting");
-            mType = 0;
-            mTrackCount = 0;
-            mResolution = DEFAULT_RESOLUTION;
-            return;
+            throw new IllegalStateException("File identifier did not match MThd!");
         }
 
         mType = MidiUtil.bytesToInt(buffer, 8, 2);
         mTrackCount = MidiUtil.bytesToInt(buffer, 10, 2);
         mResolution = MidiUtil.bytesToInt(buffer, 12, 2);
+    }
+    
+    public void dumpToConsole()
+    {
+        System.out.println("MIDI File Type: " + mType);
+        System.out.println("Resolution: " + mResolution);
+        System.out.println("Track Count: " + mTrackCount);
+        System.out.println("Tracks: ");
+        
+        for(int i = 0; i < mTrackCount; i++)
+        {
+            System.out.println("Track " + i + ": ---");
+            mTracks.get(i).dumpEvents();
+        }
     }
 }

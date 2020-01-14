@@ -1,3 +1,10 @@
+Java Bug Squash
+=============
+- Clone this project
+- Open it in your Java IDE of choice
+- Run Main.java
+- Find the root cause of and fix the IllegalStateException that is raised while reading the input file
+
 Android MIDI Library
 =============
 

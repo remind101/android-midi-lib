@@ -58,10 +58,9 @@ public class MidiUtil
     {
         int num = 0;
 
-        int shift = 0;
+        int shift = 1;
         for(int i = off + len - 1; i >= off; i--)
         {
-
             num += (buff[i] & 0xFF) << shift;
             shift += 8;
         }

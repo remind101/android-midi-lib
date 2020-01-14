@@ -34,7 +34,7 @@ import com.leff.midi.util.VariableLengthInt;
 
 public class MidiTrack
 {
-    private static final boolean VERBOSE = false;
+    private static final boolean VERBOSE = true;
 
     public static final byte[] IDENTIFIER = { 'M', 'T', 'r', 'k' };
 
@@ -67,14 +67,18 @@ public class MidiTrack
     public MidiTrack(InputStream in) throws IOException
     {
         this();
+        
+        if (VERBOSE)
+        {
+            System.out.println("Reading MidiTrack...");
+        }
 
         byte[] buffer = new byte[4];
         in.read(buffer);
 
         if(!MidiUtil.bytesEqual(buffer, IDENTIFIER, 0, 4))
         {
-            System.err.println("Track identifier did not match MTrk!");
-            return;
+            throw new IllegalStateException("Track identifier did not match MTrk!");
         }
 
         in.read(buffer);

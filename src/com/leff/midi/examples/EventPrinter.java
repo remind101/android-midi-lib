@@ -59,7 +59,7 @@ public class EventPrinter implements MidiEventListener
         MidiFile midi = null;
         try
         {
-            midi = new MidiFile(new File("inputmid.mid"));
+            midi = new MidiFile(new File("example.mid"));
         }
         catch(IOException e)
         {

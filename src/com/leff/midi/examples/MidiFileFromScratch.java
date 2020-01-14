@@ -56,7 +56,7 @@ public class MidiFileFromScratch
         MidiFile midi = new MidiFile(MidiFile.DEFAULT_RESOLUTION, tracks);
 
         // 4. Write the MIDI data to a file
-        File output = new File("exampleout.mid");
+        File output = new File("example.mid");
         try
         {
             midi.writeToFile(output);
