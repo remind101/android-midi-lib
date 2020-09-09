@@ -2,6 +2,7 @@ Java Bug Squash
 =============
 - Clone this project
 - Open it in your Java IDE of choice
+  - If opening in Eclipse you may need to delete module-info.java if getting the error "must declare a named package eclipse because this compilation unit is associated to the named module"
 - Run Main.java
 - Find the root cause of and fix the IllegalStateException that is raised while reading the input file
 
