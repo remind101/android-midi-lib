@@ -25,7 +25,7 @@ import com.leff.midi.event.meta.TimeSignature;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-
+import java.util.List;
 
 public class MidiProcessor {
     private static final int PROCESS_RATE_MS = 8;
@@ -80,7 +80,7 @@ public class MidiProcessor {
 
         mMetronome.setTimeSignature(new TimeSignature());
 
-        ArrayList<MidiTrack> tracks = mMidiFile.getTracks();
+        List<MidiTrack> tracks = mMidiFile.getTracks();
 
         if (mEventQueues == null) {
             mEventQueues = new MidiTrackEventQueue[tracks.size()];
@@ -197,6 +197,14 @@ public class MidiProcessor {
         }
     }
 
+    private void sleepSafely(long ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
     private void process() {
         onStart(mTicksElapsed < 1);
 
@@ -209,10 +217,7 @@ public class MidiProcessor {
             long msElapsed = now - lastMs;
 
             if (msElapsed < PROCESS_RATE_MS) {
-                try {
-                    Thread.sleep(PROCESS_RATE_MS - msElapsed);
-                } catch (Exception e) {
-                }
+                sleepSafely(PROCESS_RATE_MS - msElapsed);
                 continue;
             }
 

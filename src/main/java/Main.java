@@ -1,22 +1,19 @@
 import com.leff.midi.MidiFile;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Main {
     public static void main(String[] args) {
-        MidiFile mf = null;
-        File input = new File("example.mid");
-
         try {
-            mf = new MidiFile(input);
+            byte[] midiData = Files.readAllBytes(Paths.get("example.mid"));
+            MidiFile mf = new MidiFile(midiData);
             mf.dumpToConsole();
-
             System.out.println("Success!");
         } catch (IOException e) {
             System.err.println("Error parsing MIDI file:");
             e.printStackTrace();
-            return;
         }
     }
 }

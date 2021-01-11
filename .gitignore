@@ -1,3 +1,24 @@
-target
+target/
 .classpath
 .project
+
+
+*.class
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+.settings
+
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+.gradle
+
+# Specific overrides
+!.gitignore
+!.clang-format
+!.vscode/settings.json
+

@@ -7,9 +7,9 @@ import com.leff.midi.event.meta.Tempo;
 import com.leff.midi.util.MidiEventListener;
 import com.leff.midi.util.MidiProcessor;
 
-import java.io.File;
 import java.io.IOException;
-
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class EventPrinter implements MidiEventListener {
     private String mLabel;
@@ -47,7 +47,7 @@ public class EventPrinter implements MidiEventListener {
         // 1. Read in a MidiFile
         MidiFile midi = null;
         try {
-            midi = new MidiFile(new File("example.mid"));
+            midi = new MidiFile(Files.readAllBytes(Paths.get("example.mid")));
         } catch (IOException e) {
             System.err.println(e);
             return;

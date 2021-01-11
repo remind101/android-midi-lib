@@ -16,7 +16,11 @@
 
 package com.leff.midi.util;
 
+import java.util.Arrays;
+
 public class MidiUtil {
+    private MidiUtil() {}
+
     /**
      * MIDI Unit Conversions
      */
@@ -61,9 +65,7 @@ public class MidiUtil {
 
     public static byte[] intToBytes(int val, int byteCount) {
         byte[] buffer = new byte[byteCount];
-
         int[] ints = new int[byteCount];
-
         for (int i = 0; i < byteCount; i++) {
             ints[i] = val & 0xFF;
             buffer[byteCount - i - 1] = (byte) ints[i];
@@ -79,34 +81,16 @@ public class MidiUtil {
     }
 
     public static boolean bytesEqual(byte[] buf1, byte[] buf2, int off, int len) {
-        for (int i = off; i < off + len; i++) {
-            if (i >= buf1.length || i >= buf2.length) {
-                return false;
-            }
-            if (buf1[i] != buf2[i]) {
-                return false;
-            }
-        }
-        return true;
+        int endIndex = off + len;
+        return 0 == Arrays.compare(buf1, off, endIndex, buf2, off, endIndex);
     }
 
     public static byte[] extractBytes(byte[] buffer, int off, int len) {
-        byte[] ret = new byte[len];
-
-        for (int i = 0; i < len; i++) {
-            ret[i] = buffer[off + i];
-        }
-
-        return ret;
+        return Arrays.copyOfRange(buffer, off, off + len);
     }
 
-    private static final String HEX = "0123456789ABCDEF";
-
     public static String byteToHex(byte b) {
-        int high = (b & 0xF0) >> 4;
-        int low = (b & 0x0F);
-
-        return "" + HEX.charAt(high) + HEX.charAt(low);
+        return String.format("%02x", b);
     }
 
     public static String bytesToHex(byte[] b) {
