@@ -1,12 +1,12 @@
 //////////////////////////////////////////////////////////////////////////////
 //	Copyright 2011 Alex Leffelman
-//	
+//
 //	Licensed under the Apache License, Version 2.0 (the "License");
 //	you may not use this file except in compliance with the License.
 //	You may obtain a copy of the License at
-//	
+//
 //	http://www.apache.org/licenses/LICENSE-2.0
-//	
+//
 //	Unless required by applicable law or agreed to in writing, software
 //	distributed under the License is distributed on an "AS IS" BASIS,
 //	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,20 +16,19 @@
 
 package com.leff.midi.event.meta;
 
+import com.leff.midi.event.MidiEvent;
+import com.leff.midi.util.VariableLengthInt;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import com.leff.midi.event.MidiEvent;
-import com.leff.midi.util.VariableLengthInt;
 
-public abstract class MetaEvent extends MidiEvent
-{
+public abstract class MetaEvent extends MidiEvent {
     protected int mType;
     protected VariableLengthInt mLength;
 
-    protected MetaEvent(long tick, long delta, int type, VariableLengthInt length)
-    {
+    protected MetaEvent(long tick, long delta, int type, VariableLengthInt length) {
         super(tick, delta);
 
         mType = type & 0xFF;
@@ -39,25 +38,21 @@ public abstract class MetaEvent extends MidiEvent
     protected abstract int getEventSize();
 
     @Override
-    public void writeToFile(OutputStream out, boolean writeType) throws IOException
-    {
+    public void writeToFile(OutputStream out, boolean writeType) throws IOException {
         writeToFile(out);
     }
 
-    protected void writeToFile(OutputStream out) throws IOException
-    {
+    protected void writeToFile(OutputStream out) throws IOException {
         super.writeToFile(out, true);
         out.write(0xFF);
         out.write(mType);
     }
 
-    public static MetaEvent parseMetaEvent(long tick, long delta, InputStream in) throws IOException
-    {
+    public static MetaEvent parseMetaEvent(long tick, long delta, InputStream in) throws IOException {
         MetaEventData eventData = new MetaEventData(in);
 
         boolean isText = false;
-        switch(eventData.type)
-        {
+        switch (eventData.type) {
             case SEQUENCE_NUMBER:
             case MIDI_CHANNEL_PREFIX:
             case END_OF_TRACK:
@@ -80,12 +75,10 @@ public abstract class MetaEvent extends MidiEvent
                 break;
         }
 
-        if(isText)
-        {
+        if (isText) {
             String text = new String(eventData.data);
 
-            switch(eventData.type)
-            {
+            switch (eventData.type) {
                 case TEXT_EVENT:
                     return new Text(tick, delta, text);
                 case COPYRIGHT_NOTICE:
@@ -107,8 +100,7 @@ public abstract class MetaEvent extends MidiEvent
             }
         }
 
-        switch(eventData.type)
-        {
+        switch (eventData.type) {
             case SEQUENCE_NUMBER:
                 return SequenceNumber.parseSequenceNumber(tick, delta, eventData);
             case MIDI_CHANNEL_PREFIX:
@@ -128,19 +120,16 @@ public abstract class MetaEvent extends MidiEvent
         return null;
     }
 
-    protected static class MetaEventData
-    {
+    protected static class MetaEventData {
         public final int type;
         public final VariableLengthInt length;
         public final byte[] data;
 
-        public MetaEventData(InputStream in) throws IOException
-        {
+        public MetaEventData(InputStream in) throws IOException {
             type = in.read();
             length = new VariableLengthInt(in);
             data = new byte[length.getValue()];
-            if(length.getValue() > 0)
-            {
+            if (length.getValue() > 0) {
                 in.read(data);
             }
         }

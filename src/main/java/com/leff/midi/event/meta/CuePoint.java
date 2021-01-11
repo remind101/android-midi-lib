@@ -1,12 +1,12 @@
 //////////////////////////////////////////////////////////////////////////////
 //	Copyright 2011 Alex Leffelman
-//	
+//
 //	Licensed under the Apache License, Version 2.0 (the "License");
 //	you may not use this file except in compliance with the License.
 //	You may obtain a copy of the License at
-//	
+//
 //	http://www.apache.org/licenses/LICENSE-2.0
-//	
+//
 //	Unless required by applicable law or agreed to in writing, software
 //	distributed under the License is distributed on an "AS IS" BASIS,
 //	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,20 +16,16 @@
 
 package com.leff.midi.event.meta;
 
-public class CuePoint extends TextualMetaEvent
-{
-    public CuePoint(long tick, long delta, String marker)
-    {
+public class CuePoint extends TextualMetaEvent {
+    public CuePoint(long tick, long delta, String marker) {
         super(tick, delta, MetaEvent.CUE_POINT, marker);
     }
 
-    public void setCue(String name)
-    {
+    public void setCue(String name) {
         setText(name);
     }
 
-    public String getCue()
-    {
+    public String getCue() {
         return getText();
     }
 }

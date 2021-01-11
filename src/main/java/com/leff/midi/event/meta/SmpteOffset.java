@@ -1,12 +1,12 @@
 //////////////////////////////////////////////////////////////////////////////
 //	Copyright 2011 Alex Leffelman
-//	
+//
 //	Licensed under the Apache License, Version 2.0 (the "License");
 //	you may not use this file except in compliance with the License.
 //	You may obtain a copy of the License at
-//	
+//
 //	http://www.apache.org/licenses/LICENSE-2.0
-//	
+//
 //	Unless required by applicable law or agreed to in writing, software
 //	distributed under the License is distributed on an "AS IS" BASIS,
 //	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,14 +16,14 @@
 
 package com.leff.midi.event.meta;
 
-import java.io.IOException;
-import java.io.OutputStream;
-
 import com.leff.midi.event.MidiEvent;
 import com.leff.midi.util.VariableLengthInt;
 
-public class SmpteOffset extends MetaEvent
-{
+import java.io.IOException;
+import java.io.OutputStream;
+
+
+public class SmpteOffset extends MetaEvent {
     public static final int FRAME_RATE_24 = 0;
     public static final int FRAME_RATE_25 = 1;
     public static final int FRAME_RATE_30_DROP = 2;
@@ -36,8 +36,7 @@ public class SmpteOffset extends MetaEvent
     private int mFrames;
     private int mSubFrames;
 
-    public SmpteOffset(long tick, long delta, FrameRate fps, int hour, int min, int sec, int fr, int subfr)
-    {
+    public SmpteOffset(long tick, long delta, FrameRate fps, int hour, int min, int sec, int fr, int subfr) {
         super(tick, delta, MetaEvent.SMPTE_OFFSET, new VariableLengthInt(5));
 
         mFrameRate = fps;
@@ -48,75 +47,61 @@ public class SmpteOffset extends MetaEvent
         mSubFrames = subfr;
     }
 
-    public void setFrameRate(FrameRate fps)
-    {
+    public void setFrameRate(FrameRate fps) {
         mFrameRate = fps;
     }
 
-    public FrameRate getFrameRate()
-    {
+    public FrameRate getFrameRate() {
         return mFrameRate;
     }
 
-    public void setHours(int h)
-    {
+    public void setHours(int h) {
         mHours = h;
     }
 
-    public int getHours()
-    {
+    public int getHours() {
         return mHours;
     }
 
-    public void setMinutes(int m)
-    {
+    public void setMinutes(int m) {
         mMinutes = m;
     }
 
-    public int getMinutes()
-    {
+    public int getMinutes() {
         return mMinutes;
     }
 
-    public void setSeconds(int s)
-    {
+    public void setSeconds(int s) {
         mSeconds = s;
     }
 
-    public int getSeconds()
-    {
+    public int getSeconds() {
         return mSeconds;
     }
 
-    public void setFrames(int f)
-    {
+    public void setFrames(int f) {
         mFrames = f;
     }
 
-    public int getFrames()
-    {
+    public int getFrames() {
         return mFrames;
     }
 
-    public void setSubFrames(int s)
-    {
+    public void setSubFrames(int s) {
         mSubFrames = s;
     }
 
-    public int getSubFrames()
-    {
+    public int getSubFrames() {
         return mSubFrames;
     }
 
     @Override
-    protected int getEventSize()
-    {
+    protected int getEventSize() {
         return 8;
     }
 
     @Override
-    public void writeToFile(OutputStream out) throws IOException
-    {
+    public void writeToFile(OutputStream out) throws IOException {
         super.writeToFile(out);
 
         out.write(5);
@@ -127,10 +112,8 @@ public class SmpteOffset extends MetaEvent
         out.write(mSubFrames);
     }
 
-    public static MetaEvent parseSmpteOffset(long tick, long delta, MetaEventData info)
-    {
-        if(info.length.getValue() != 5)
-        {
+    public static MetaEvent parseSmpteOffset(long tick, long delta, MetaEventData info) {
+        if (info.length.getValue() != 5) {
             return new GenericMetaEvent(tick, delta, info);
         }
 
@@ -148,21 +131,20 @@ public class SmpteOffset extends MetaEvent
         return new SmpteOffset(tick, delta, fps, hour, min, sec, frm, sub);
     }
 
-    public enum FrameRate
-    {
-        FRAME_RATE_24(0x00), FRAME_RATE_25(0x01), FRAME_RATE_30_DROP(0x02), FRAME_RATE_30(0x03);
+    public enum FrameRate {
+        FRAME_RATE_24(0x00),
+        FRAME_RATE_25(0x01),
+        FRAME_RATE_30_DROP(0x02),
+        FRAME_RATE_30(0x03);
 
         public final int value;
 
-        private FrameRate(int v)
-        {
+        private FrameRate(int v) {
             value = v;
         }
 
-        public static FrameRate fromInt(int val)
-        {
-            switch(val)
-            {
+        public static FrameRate fromInt(int val) {
+            switch (val) {
                 case 0:
                     return FRAME_RATE_24;
                 case 1:
@@ -177,19 +159,15 @@ public class SmpteOffset extends MetaEvent
     }
 
     @Override
-    public int compareTo(MidiEvent other)
-    {
-        if(mTick != other.getTick())
-        {
+    public int compareTo(MidiEvent other) {
+        if (mTick != other.getTick()) {
             return mTick < other.getTick() ? -1 : 1;
         }
-        if(mDelta.getValue() != other.getDelta())
-        {
+        if (mDelta.getValue() != other.getDelta()) {
             return mDelta.getValue() < other.getDelta() ? 1 : -1;
         }
 
-        if(!(other instanceof SmpteOffset))
-        {
+        if (!(other instanceof SmpteOffset)) {
             return 1;
         }
 

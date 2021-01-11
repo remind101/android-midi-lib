@@ -1,12 +1,12 @@
 //////////////////////////////////////////////////////////////////////////////
 //	Copyright 2011 Alex Leffelman
-//	
+//
 //	Licensed under the Apache License, Version 2.0 (the "License");
 //	you may not use this file except in compliance with the License.
 //	You may obtain a copy of the License at
-//	
+//
 //	http://www.apache.org/licenses/LICENSE-2.0
-//	
+//
 //	Unless required by applicable law or agreed to in writing, software
 //	distributed under the License is distributed on an "AS IS" BASIS,
 //	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,35 +16,28 @@
 
 package com.leff.midi.event;
 
-public class Controller extends ChannelEvent
-{
-    public Controller(long tick, int channel, int controllerType, int value)
-    {
+public class Controller extends ChannelEvent {
+    public Controller(long tick, int channel, int controllerType, int value) {
         super(tick, ChannelEvent.CONTROLLER, channel, controllerType, value);
     }
 
-    public Controller(long tick, long delta, int channel, int controllerType, int value)
-    {
+    public Controller(long tick, long delta, int channel, int controllerType, int value) {
         super(tick, delta, ChannelEvent.CONTROLLER, channel, controllerType, value);
     }
 
-    public int getControllerType()
-    {
+    public int getControllerType() {
         return mValue1;
     }
 
-    public int getValue()
-    {
+    public int getValue() {
         return mValue2;
     }
 
-    public void setControllerType(int t)
-    {
+    public void setControllerType(int t) {
         mValue1 = t;
     }
 
-    public void setValue(int v)
-    {
+    public void setValue(int v) {
         mValue2 = v;
     }
 }
