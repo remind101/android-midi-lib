@@ -81,8 +81,15 @@ public class MidiUtil {
     }
 
     public static boolean bytesEqual(byte[] buf1, byte[] buf2, int off, int len) {
-        int endIndex = off + len;
-        return 0 == Arrays.compare(buf1, off, endIndex, buf2, off, endIndex);
+        for (int i = off; i < off + len; i++) {
+            if (i >= buf1.length || i >= buf2.length) {
+                return false;
+            }
+            if (buf1[i] != buf2[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static byte[] extractBytes(byte[] buffer, int off, int len) {
